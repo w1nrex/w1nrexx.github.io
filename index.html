@@ -17,6 +17,9 @@
         <div class="header">
             <h1 class="logo">W1nrex</h1>
         </div>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme">
+            Theme: Dark
+        </button>
         <div class="content">
             <div class="title">
                 <h1>W1NREX</h1>
@@ -66,5 +69,32 @@
             </div>
         </section>
     </main>
+    <script>
+        // Тема константы
+        const storageKey = "theme";
+        const toggleButton = document.getElementById("theme-toggle");
+        // Функция для получения предпочтительной темы
+        function getPreferredTheme() {
+            const stored = localStorage.getItem(storageKey);
+            if (stored === "light" || stored === "dark") {
+                return stored;
+            }
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.dataset.theme = theme;
+            toggleButton.textContent = theme === "dark" ? "Theme: Dark" : "Theme: Light";
+        }
+
+        applyTheme(getPreferredTheme());
+
+        toggleButton.addEventListener("click", () => {
+            const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+            document.documentElement.dataset.theme = nextTheme;
+            localStorage.setItem(storageKey, nextTheme);
+            applyTheme(nextTheme);
+        });
+    </script>
 </body>
 </html>
